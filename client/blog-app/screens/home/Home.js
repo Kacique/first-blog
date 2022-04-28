@@ -8,29 +8,11 @@ const backgroundImg =
 
 const Home = (props) => {
   const [searching, setSearching] = useState(true);
-  //const [users, setUsers] = useState({});
-  /*
-  const getUsers = () => {
-    (async () => {
-      try {
-        const userResponse =
-          Platform.OS === "web"
-            ? await axios.get(`http://localhost:5050/`)
-            : await axios.get(`http://10.0.2.2:5050/}`);
-
-        setSearching(true);
-        //setUsers(userResponse.data);
-        console.log("This is our data ===>", userResponse);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  };
 
   useEffect(() => {
-    getUsers();
-  }, []);
-*/
+    if (props.userData.id) props.navigation.navigate("Admin");
+  }, [props.userData]);
+
   return (
     <View style={styles.container}>
       {searching ? (

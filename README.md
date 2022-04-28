@@ -14,3 +14,7 @@ example : "/register"
 
 Set up page for the admin page:
 example : "/admin"
+
+Save token in local storage
+
+- if token exists, load user data

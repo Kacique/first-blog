@@ -1,15 +1,27 @@
 import { View, Text, Pressable, TextInput } from "react-native";
-import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import styles from "./styles";
 
 const Admin = (props) => {
-  const { email } = props.route.params;
+  useEffect(() => {
+    if (!props.userData.id) {
+      props.navigation.navigate("Login");
+    }
+  });
 
   return (
     <View style={styles.container}>
-      <Text>Email: {JSON.stringify(email)}</Text>
+      <Text>Hi im Admin</Text>
+      <Pressable
+        onPress={async () => {
+          await AsyncStorage.setItem("token", "");
+          props.setUserData({});
+        }}
+      >
+        <Text>Log out</Text>
+      </Pressable>
     </View>
   );
 };
