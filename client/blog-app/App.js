@@ -16,6 +16,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [userData, setUserData] = useState({});
+  const [blogData, setBlogData] = useState({});
 
   useEffect(() => {
     let UrlString = "localhost";
@@ -69,6 +70,8 @@ export default function App() {
               {...props}
               setUserData={setUserData}
               userData={userData}
+              setBlogData={setBlogData}
+              blogData={blogData}
             ></Admin>
           )}
         </Stack.Screen>
