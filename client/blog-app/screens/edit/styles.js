@@ -1,135 +1,71 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  Pressable,
-  Platform,
-  FlatList,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StyleSheet } from "react-native";
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    //backgroundColor: "#DFF3E4",
+    backgroundColor: "#dfe4ea",
+  },
+  navContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 50,
+    marginBottom: 20,
+  },
+  content: {
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
 
-import styles from "./styles";
+    marginTop: 80,
+  },
+  backButton: {
+    backgroundColor: "#4caad5",
+    marginLeft: 22,
+    borderRadius: 50,
+  },
 
-const Edit = (props) => {
-  const [subject, setSubject] = useState("");
-  const [text, setText] = useState("");
+  publishButton: {
+    borderRadius: 20,
+    padding: 8,
+    width: 122,
+    marginTop: 20,
+    marginHorizontal: 10,
+    backgroundColor: "#008DD5",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  publishText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#DFF3E4",
+    marginRight: 5,
+  },
+  closeModal: {
+    alignSelf: "flex-end",
+    marginBottom: 20,
+    //marginLeft: 100,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 
-  let UrlString = "localhost";
-
-  if (Platform.OS == "android") {
-    UrlString = "10.0.2.2";
-  }
-
-  const loadToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      console.log(token);
-      return token;
-    } catch (error) {
-      console.log("Load token error: ", error);
-    }
-    //return token;
-  };
-
-  const addPost = async () => {
-    const token = await loadToken();
-    const config = {
-      headers: { "x-auth-token": token },
-    };
-    axios
-      .post(
-        `http://${UrlString}:5050/blog/new`,
-        {
-          //headers: { "x-auth-token": tokenRes },
-          subject: subject,
-          text: text,
-          authorId: props.userData.id,
-        },
-        config
-      )
-      .then(function (res) {
-        props.setBlogData(res.data.blog); //blogs
-        //console.log(res.data.blog);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-  };
-
-  const getPost = async () => {
-    const token = await loadToken();
-    const config = {
-      headers: { "x-auth-token": token },
-    };
-    return (
-      axios
-        .get(`http://${UrlString}:5050/blog`, config)
-        // {
-        //   authorId: props.userData.id,
-        // }
-        .then(function (response) {
-          // setToken(response);
-          //console.log(response.data);
-          props.setBlogData(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-    );
-  };
-
-  useEffect(() => {
-    if (!props.userData.id) {
-      props.navigation.navigate("Login");
-    }
-  }, []);
-
-  useEffect(() => {
-    getPost();
-  }, []);
-
-  //console.log(props.userData);
-  //console.log(props.blogData);
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.center}>
-        <Text>Welcome🤠</Text>
-
-        <TextInput
-          placeholder="Title"
-          value={subject}
-          onChangeText={setSubject}
-        />
-
-        <TextInput
-          placeholder="type your blog here"
-          value={text}
-          onChangeText={setText}
-        />
-
-        <Pressable onPress={() => addPost()}>
-          <Text>Create Blog</Text>
-        </Pressable>
-        <View>
-          <FlatList
-            data={allBlog}
-            renderItem={({ item }, index) => (
-              <View style={styles.flatList}>
-                <Text>{item.subject}</Text>
-                <Text>{item.text}</Text>
-              </View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-export default Edit;
+  blogContent: {
+    height: "80%",
+    width: "95%",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 6,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  textInput: {
+    marginBottom: 20,
+    fontSize: 18,
+  },
+});
+export default styles;

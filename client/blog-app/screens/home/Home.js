@@ -120,17 +120,11 @@ const Home = (props) => {
     ]
   );
 
-  useEffect(() => {
-    getPost();
-  }, []);
-
-  /**
-   * useFocusEffect(
+  useFocusEffect(
     useCallback(() => {
       getPost();
     }, [])
   );
-   */
 
   return (
     <View style={styles.container}>
@@ -138,7 +132,7 @@ const Home = (props) => {
         <TouchableOpacity
           style={styles.profileButton}
           onPress={() => {
-            props.navigation.navigate("Profile");
+            props.navigation.navigate("Admin");
           }}
         >
           <Text>
@@ -166,16 +160,26 @@ const Home = (props) => {
           //inverted={true}
           renderItem={({ item, index }) => (
             <View key={index} style={styles.flatlistContainer}>
-              <View style={styles.blogInfo}>
-                <Text style={styles.blogAuthor}>{item.userName}</Text>
-                <Text style={styles.blogDot}>·</Text>
-                <Text style={styles.blogDate}>{item.date}</Text>
-              </View>
+              <Pressable
+                onPress={() => {
+                  props.navigation.navigate("Blog", {
+                    item: item,
+                    index: index,
+                    //item: item._id,
+                  });
+                }}
+              >
+                <View style={styles.blogInfo}>
+                  <Text style={styles.blogAuthor}>{item.userName}</Text>
+                  <Text style={styles.blogDot}>·</Text>
+                  <Text style={styles.blogDate}>{item.date}</Text>
+                </View>
 
-              <Text style={styles.blogTitle}>{item.subject}</Text>
-              <Text numberOfLines={2} style={styles.blogText}>
-                {item.text}
-              </Text>
+                <Text style={styles.blogTitle}>{item.subject}</Text>
+                <Text numberOfLines={2} style={styles.blogText}>
+                  {item.text}
+                </Text>
+              </Pressable>
             </View>
           )}
           keyExtractor={(item) => item._id}

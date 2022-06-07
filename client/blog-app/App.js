@@ -6,11 +6,14 @@ import Launch from "./screens/launch/Launch";
 import Login from "./screens/login/Login";
 import Register from "./screens/register/Register";
 import Home from "./screens/home/Home";
+import Admin from "./screens/admin/Admin";
+import Edit from "./screens/edit/Edit";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 import { Platform } from "react-native";
+import Blog from "./screens/blog/Blog";
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +76,35 @@ export default function App() {
               setBlogData={setBlogData}
               blogData={blogData}
             ></Home>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Admin">
+          {(props) => (
+            <Admin
+              {...props}
+              setUserData={setUserData}
+              userData={userData}
+              setBlogData={setBlogData}
+              blogData={blogData}
+            ></Admin>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Edit">
+          {(props) => (
+            <Edit
+              {...props}
+              setBlogData={setBlogData}
+              blogData={blogData}
+            ></Edit>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Blog">
+          {(props) => (
+            <Blog
+              {...props}
+              setBlogData={setBlogData}
+              blogData={blogData}
+            ></Blog>
           )}
         </Stack.Screen>
       </Stack.Navigator>
