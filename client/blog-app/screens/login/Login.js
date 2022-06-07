@@ -12,7 +12,7 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (props.userData.id) props.navigation.navigate("Admin");
+    if (props.userData.id) props.navigation.navigate("Home");
   }, [props.userData]);
 
   let urlString = "localhost";
@@ -39,7 +39,7 @@ const Login = (props) => {
       })
       .then(() => {
         console.log("Token saved");
-        props.navigation.navigate("Admin");
+        props.navigation.navigate("Home");
       })
       .catch(function (err) {
         console.log(err);

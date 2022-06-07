@@ -14,15 +14,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import styles from "./styles";
 
-const Admin = (props) => {
-  const [userName, setUserName] = useState("");
-  const [blog, setBlog] = useState("");
+const Edit = (props) => {
   const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
-  const [authorId, setAuthorId] = useState("");
-  const [allBlog, setAllBlog] = useState("");
-  const [posted, setPosted] = useState(false);
-  const [token, setToken] = useState("");
 
   let UrlString = "localhost";
 
@@ -40,39 +34,6 @@ const Admin = (props) => {
     }
     //return token;
   };
-  /*
-  const addPost = async (subject, text) => {
-    const token = await loadToken();
-    const config = {
-      headers: { "x-auth-token": token },
-    };
-    axios
-      .post(
-        `http://${UrlString}:5050/blog/new`,
-        {
-          //headers: { "x-auth-token": tokenRes },
-          subject: subject,
-          text: text,
-          authorId: props.userData.id,
-        },
-        config
-      )
-      .then(function (res) {
-        // use async storage to set an item with the key and value
-
-        props.setBlogData(res.data.user);
-        return AsyncStorage.setItem("subject", res.data.subject);
-        //AsyncStorage.setItem("text", res.data.text);
-        //AsyncStorage.setItem("authorId", res.data.authorId);
-      })
-      .then(() => {
-        console.log("Blog post saved");
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-  };
-*/
 
   const addPost = async () => {
     const token = await loadToken();
@@ -91,11 +52,34 @@ const Admin = (props) => {
         config
       )
       .then(function (res) {
-        console.log(res.data); //blogs
+        props.setBlogData(res.data.blog); //blogs
+        //console.log(res.data.blog);
       })
       .catch(function (err) {
         console.log(err);
       });
+  };
+
+  const getPost = async () => {
+    const token = await loadToken();
+    const config = {
+      headers: { "x-auth-token": token },
+    };
+    return (
+      axios
+        .get(`http://${UrlString}:5050/blog`, config)
+        // {
+        //   authorId: props.userData.id,
+        // }
+        .then(function (response) {
+          // setToken(response);
+          //console.log(response.data);
+          props.setBlogData(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    );
   };
 
   useEffect(() => {
@@ -104,7 +88,12 @@ const Admin = (props) => {
     }
   }, []);
 
-  console.log(props.userData);
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  //console.log(props.userData);
+  //console.log(props.blogData);
 
   return (
     <View style={styles.container}>
@@ -126,13 +115,21 @@ const Admin = (props) => {
         <Pressable onPress={() => addPost()}>
           <Text>Create Blog</Text>
         </Pressable>
-
-        {/* <FlatlList
-            
-            /> */}
+        <View>
+          <FlatList
+            data={allBlog}
+            renderItem={({ item }, index) => (
+              <View style={styles.flatList}>
+                <Text>{item.subject}</Text>
+                <Text>{item.text}</Text>
+              </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
       </View>
     </View>
   );
 };
 
-export default Admin;
+export default Edit;

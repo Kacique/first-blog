@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Home from "./screens/home/Home";
+import Launch from "./screens/launch/Launch";
 import Login from "./screens/login/Login";
 import Register from "./screens/register/Register";
-import Admin from "./screens/admin/Admin";
+import Home from "./screens/home/Home";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [userData, setUserData] = useState({});
-  const [blogData, setBlogData] = useState({});
+  const [blogData, setBlogData] = useState([]);
 
   useEffect(() => {
     let UrlString = "localhost";
@@ -38,18 +38,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Launch"
         screenOptions={{
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Home">
+        <Stack.Screen name="Launch">
           {(props) => (
-            <Home
+            <Launch
               {...props}
               userData={userData}
               setUserData={setUserData}
-            ></Home>
+            ></Launch>
           )}
         </Stack.Screen>
         <Stack.Screen name="Login">
@@ -64,15 +64,15 @@ export default function App() {
         <Stack.Screen name="Register">
           {(props) => <Register {...props}></Register>}
         </Stack.Screen>
-        <Stack.Screen name="Admin">
+        <Stack.Screen name="Home">
           {(props) => (
-            <Admin
+            <Home
               {...props}
               setUserData={setUserData}
               userData={userData}
               setBlogData={setBlogData}
               blogData={blogData}
-            ></Admin>
+            ></Home>
           )}
         </Stack.Screen>
       </Stack.Navigator>
